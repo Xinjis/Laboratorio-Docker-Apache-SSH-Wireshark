@@ -20,14 +20,14 @@ Este repositorio contiene un laboratorio educativo para demostrar cómo capturar
 - [Wireshark](https://www.wireshark.org/download.html)
 - Estructura de archivos:
 
-  
+```
 ├── apache
 │   ├── .htpasswd
 │   ├── htdocs
 │   │   └── index.html
 │   └── httpd.conf   
 ├── docker-compose.yml
-
+```
 
 ---
 
