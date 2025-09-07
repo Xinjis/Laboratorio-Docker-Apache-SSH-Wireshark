@@ -127,6 +127,7 @@ Ver cabecera WWW-Authenticate.
 - Decodificar Base64
 
 `echo -n 'YWRtaW46YWRtaW4xMjM=' | base64 -d`
+<img width="996" height="82" alt="Pasted Graphic 6" src="https://github.com/user-attachments/assets/fc26d9fa-f1e5-478d-a4d6-27f6c5b8fb7d" />
 
 El resultado esperado es admin:admin123
 
