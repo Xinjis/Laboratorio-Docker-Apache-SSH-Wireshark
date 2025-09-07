@@ -18,7 +18,9 @@ Este repositorio contiene un laboratorio educativo para demostrar cómo capturar
 - [Docker](https://docs.docker.com/get-docker/)  
 - [Docker Compose](https://docs.docker.com/compose/install/)  
 - [Wireshark](https://www.wireshark.org/download.html)
-- Estructura de archivos: 
+- Estructura de archivos:
+
+  
 ├── apache
 │   ├── .htpasswd
 │   ├── htdocs
