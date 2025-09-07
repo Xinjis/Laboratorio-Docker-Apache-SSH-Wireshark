@@ -117,12 +117,14 @@ tcpdump -i eth0 -w /tmp/captura.pcap
 - HTTP sin TLS
   
 `http.response.code == 401`
+<img width="2724" height="1604" alt="Pasted Graphic 4" src="https://github.com/user-attachments/assets/51c17baf-937f-4256-a75f-4b0c81b1fe79" />
 
 Ver cabecera WWW-Authenticate.
 
 - Filtrar credenciales:
 
 `http.authorization`
+<img width="2702" height="1570" alt="Pasted Graphic 5" src="https://github.com/user-attachments/assets/6559593c-1fb9-4214-a791-5df35f4d445a" />
 
 - Decodificar Base64
 
