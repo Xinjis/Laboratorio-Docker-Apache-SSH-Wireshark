@@ -68,13 +68,16 @@ networks:
     driver: bridge
 ```
 
-3.2 Configuración de Apache en caso de ser encesario
-	-	Generar archivo .htpasswd en caso de ser necesario:
+### 3.2 Configuración de Apache en caso de ser encesario
+- Generar archivo .htpasswd en caso de ser necesario:
+  
 ```
 apt update && apt install -y apache2-utils
 htpasswd -c ./apache/.htpasswd admin
 ```
+
 - Configurar httpd.conf con autenticación básica:
+  
 ```
 <Directory "/usr/local/apache2/htdocs">
     AuthType Basic
@@ -83,9 +86,67 @@ htpasswd -c ./apache/.htpasswd admin
     Require valid-user
 </Directory>
 ```
-4. Generación de tráfico
-	•	HTTP:
+
+## 4. Generación de tráfico
+   
+- HTTP:
+  
 `curl -v http://localhost --user admin:admin123`
+
+- SSH:
+
+`ssh admin@localhost -p 2222`
+
+También se puede acceder vía navegador a http://localhost
+
+## 5. Captura de paquetes
+
+- Dentro del contenedor Apache:
+
+```
+docker exec -it apache_server bash
+tcpdump -i eth0 -w /tmp/captura.pcap
+```
+
+- Detener con Ctrl + C.
+- Copiar archivo al host:
+  
+`docker cp apache_server:/tmp/captura.pcap .`
+
+## 6. Análsis en Wireshark
+- HTTP sin TLS
+  
+`http.response.code == 401`
+
+Ver cabecera WWW-Authenticate.
+
+- Filtrar credenciales:
+
+`http.authorization`
+
+- Decodificar Base64
+
+`echo -n 'YWRtaW46YWRtaW4xMjM=' | base64 -d`
+
+El resultado esperado es admin:admin123
+
+## 7. Conclusiones
+- HTTP sin TLS expone credenciales → nunca debe usarse en producción.
+- SSH protege toda la sesión → la confidencialidad está garantizada.
+- La lección clave: TLS/HTTPS no es opcional.
+
+## 8. Consideraciones
+	•	Laboratorio con fines educativos.
+	•	No usar credenciales reales.
+	•	Ideal para prácticas en ciberseguridad y análisis de tráfico.
+
+
+
+
+
+
+
+
 
 
 
