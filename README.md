@@ -17,11 +17,19 @@ Este repositorio contiene un laboratorio educativo para demostrar cómo capturar
 
 - [Docker](https://docs.docker.com/get-docker/)  
 - [Docker Compose](https://docs.docker.com/compose/install/)  
-- [Wireshark](https://www.wireshark.org/download.html)  
+- [Wireshark](https://www.wireshark.org/download.html)
+- Estructura de archivos: 
+├── apache
+│   ├── .htpasswd
+│   ├── htdocs
+│   │   └── index.html
+│   └── httpd.conf   
+├── docker-compose.yml
+
 
 ---
 
-## ⚙️ Configuración del contenedor Apache
+## ⚙️ Configuración del contenedor Apache en caso de tener que configurar AUTH
 
 El contenedor Apache utiliza autenticación básica, por lo que es necesario generar un archivo `.htpasswd` antes de iniciar:
 
