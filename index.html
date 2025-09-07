@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Laboratorio de Captura de Tráfico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root { --bg:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#22d3ee; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial; background:linear-gradient(120deg,#0f172a,#111827); color:var(--text); }
+    header { padding:32px 20px; text-align:center; border-bottom:1px solid #1f2937; }
+    header h1 { margin:0 0 8px; font-size:28px; letter-spacing:.3px; }
+    header p { margin:0; color:var(--muted); }
+    main { max-width:860px; margin:32px auto; padding:0 20px; }
+    .card { background:rgba(17,24,39,.7); border:1px solid #1f2937; border-radius:16px; padding:24px; backdrop-filter: blur(6px); }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .pill { display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid #334155; color:#cbd5e1; font-size:12px; }
+    a.btn { display:inline-block; margin-top:10px; padding:10px 14px; border-radius:10px; border:1px solid #334155; text-decoration:none; color:var(--text); }
+    a.btn:hover { border-color:var(--accent); box-shadow:0 0 0 3px rgba(34,211,238,.15) inset; }
+    code { background:#0b1220; padding:2px 6px; border-radius:6px; border:1px solid #1f2937; }
+    footer { text-align:center; color:var(--muted); padding:24px 0 40px; font-size:13px; }
+  </style>
+</head>
+<body>
+  <header>
+ <h1>Laboratorio de Captura de Tráfico</h1>
+  <p>
+    Autor: <strong>Alejandro Sánchez</strong><br>
+    <a href="https://www.linkedin.com/in/jalejandro-sanchez-gonzalez/" target="_blank" style="color:#22d3ee; text-decoration:none; margin-right:10px;">
+      LinkedIn
+    </a>
+    <a href="https://github.com/Xinjis" target="_blank" style="color:#22d3ee; text-decoration:none;">
+      GitHub
+    </a>
+  </p>
+  <p>
+    Servicios expuestos: 
+    <span class="pill">HTTP (80)</span> 
+    <span class="pill">SSH (2222)</span>
+  </p>
+  </header>
+
+  <main class="card">
+    <div class="grid">
+      <section>
+        <h3>Objetivo</h3>
+        <p>Generar y capturar tráfico para analizar peticiones <code>HTTP</code>, autenticación básica y sesiones <code>SSH</code> con Wireshark.</p>
+      </section>
+      <section>
+        <h3>Credenciales de prueba</h3>
+        <p>Este sitio usa <em>Basic Auth</em> con usuario de laboratorio. En HTTP sin TLS la cabecera <code>Authorization</code> viaja en claro.</p>
+        <ul>
+          <li>Usuario: <code>admin</code></li>
+          <li>Contraseña: <code>••••</code> (define con <code>htpasswd</code>)</li>
+        </ul>
+      </section>
+    </div>
+
+    <hr style="border:none;border-top:1px solid #1f2937;margin:20px 0;">
+    <section>
+      <h3>Comandos útiles</h3>
+      <p>Ejemplos para generar tráfico:</p>
+      <ul>
+        <li><code>curl -v http://localhost --user admin:tu_clave</code></li>
+        <li><code>ssh demo@localhost -p 2222</code></li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Captura de tráfico</h3>
+      <p>Para capturar dentro de los contenedores:</p>
+      <ul>
+        <li><code>tcpdump -i eth0 -w /tmp/captura.pcap</code></li>
+        <li>Copiar al host: <code>docker cp apache_server:/tmp/captura.pcap .</code></li>
+      </ul>
+      <p>Abrir el archivo con Wireshark para analizarlo.</p>
+    </section>
+
+    <section>
+      <h3>Qué buscar en Wireshark</h3>
+      <ul>
+        <li><strong>HTTP</strong>: cabecera <code>Authorization</code> → credenciales en Base64.</li>
+        <li><strong>SSH</strong>: handshake inicial y algoritmos de cifrado (el contenido está protegido).</li>
+        <li><strong>TCP</strong>: handshakes 3-way y flags de cierre <code>FIN</code>/<code>RST</code>.</li>
+        <li><strong>Comparativa</strong>: con TLS la cabecera <code>Authorization</code> ya no es visible.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Aviso</h3>
+      <p>Solo con fines educativos. No usar credenciales reales. Habilita TLS para proteger credenciales en tránsito.</p>
+      <p><strong>Nota:</strong> Este servicio usa autenticación básica (Basic Auth). El navegador enviará las credenciales en cada petición mientras dure la sesión y no existe un mecanismo de cierre de sesión desde la página.</p>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="y"></span> Laboratorio de Alejandro Sánchez
+  </footer>
+  <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+</body>
+</html>
