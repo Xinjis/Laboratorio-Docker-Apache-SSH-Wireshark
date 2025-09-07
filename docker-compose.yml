@@ -1,0 +1,30 @@
+services:
+  web:
+    image: httpd:2.4
+    container_name: apache_server
+    ports: 
+      - "80:80"
+    volumes:
+      - ./apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - ./apache/.htpasswd:/usr/local/apache2/.htpasswd:ro
+      - ./apache/htdocs:/usr/local/apache2/htdocs
+    networks:
+      - labnet
+
+  ssh:
+    image: linuxserver/openssh-server
+    container_name: ssh_server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - PASSWORD_ACCESS=true
+      - USER_NAME=admin
+      - USER_PASSWORD=admin123
+    ports: ["2222:2222"]
+    volumes:
+      - ./ssh/config:/config
+    networks: [labnet]
+
+networks:
+  labnet:
+    driver: bridge
